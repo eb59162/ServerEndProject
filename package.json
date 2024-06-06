@@ -1,0 +1,23 @@
+{
+  "name": "story-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eb59162/ServerEndProject.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eb59162/ServerEndProject/issues"
+  },
+  "homepage": "https://github.com/eb59162/ServerEndProject#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
