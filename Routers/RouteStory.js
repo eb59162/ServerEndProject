@@ -3,7 +3,6 @@ const router=express.Router();
 
 const{getFreshestStory,addStory, getAllStories, getStoryById, 
     updateStoryByID, deleteStoryByID}=require('../Controlers/ControllerStory')
-//יש לבדוק את כל הקריאות עם ה ThunderClient
 
 router.get('/',getAllStories)
 router.get('/:id', getStoryById)

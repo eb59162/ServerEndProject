@@ -4,22 +4,25 @@ const users = [
         id: '2323', 
         name: 'Shalom',
         email: "Shalom@.com",
+        phone:"058-6565450",
     },
     {
         id: '59776',
         name: 'David',
         email: "David@.com",
+        phone:"054-3224328",
     },
     {
         id: '534', 
         name: 'Meir',
         email: "Meir@.com",
-
+        phone:"058-6565450",
     }, 
     {
         id: '586',
         name: 'Chaim',
         email: "Chaim@.com",
+        phone:"053-3134345",
     },
 ]
 // צריכים שיפור עם הDB 
