@@ -37,12 +37,9 @@ const stories = [
         },
         author: "ester", nav: "../storyFamily.txt", catgory: "families from the area"
     },]
-//כל הפונקציות צריכות שינוי ועדכון מהDB
-//עובד מצוין
 exports.getAllStories = (req, res) => {
     res.json(stories)
 }
-//עובד מצוין
 exports.addStory = (req, res) => {
     const { id, name, date, author, nav, catgory } = req.body
     //Create a new story object
@@ -51,7 +48,6 @@ exports.addStory = (req, res) => {
     stories.push(newStory)
     res.json(stories)
 }
-//עובד מצוין
 exports.updateStoryByID = (req, res) => {
     //Get the id from the request
     const { id } = req.params
@@ -70,7 +66,6 @@ exports.updateStoryByID = (req, res) => {
         res.status(400).json({ message: 'story  not found' })
     }
 }
-//עובד מצוין
 exports.deleteStoryByID = (req, res) => {
     const { id } = req.params
     //Find the index of the story to delate
@@ -85,7 +80,6 @@ exports.deleteStoryByID = (req, res) => {
         res.status(404).json({ message: "story not found!" })
     }
 }
-//עובד מצוין
 exports.getStoryById = (req, res) => {
     const { id } = req.params;
     //Find the story with the matching ID
