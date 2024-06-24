@@ -1,14 +1,18 @@
 const mongoose = require('mongoose')
 const StorySchema = new mongoose.Schema({
-    id: String,
-    name: {
+    id: {
         type: String,
         require: true,
-        default: name
     },
-    date: {},
-    author: String,
+    Name: {
+        type: String,
+        require: true,
+    },
+    Clock: {},
+    Author: String,
     nav: String,
-    category: String,
+    Category: {type: String,
+        require: true,},
+    Like:Boolean
 })
 module.exports = mongoose.model('Story', StorySchema)

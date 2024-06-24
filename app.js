@@ -4,18 +4,18 @@ require('dotenv').config();
 // const cors=require('cors')
 const app = express()
 const storyRoter = require('./Routers/RouteStory')
-const userRoter = require('./Routers/RouteUser')
+const userRoter = require('./Routers/RouteUser');
+const { Chat } = require('./Chat/Chat');
 app.use(express.json())
 // app.use(cors(configCors))
 
 app.use('/stories', storyRoter)
 app.use('/users', userRoter)
 
-
+Chat()
 app.get('/', function (req, res) {
     res.send('Hello World!')
 })
-
 PORT = process.env.PORT || 8000
 CONNECTION = process.env.CONNECTION || "mongodb://127.0.0.1:27017/stories"
 

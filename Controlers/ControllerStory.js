@@ -1,108 +1,83 @@
-//אוביקט דמי במקום שליפה מהDB
-const stories = [
-    {
-        id: 'story1', name: "Family1",
-        date: {
-            houers: new Date().getHours(),
-            minutes: new Date().getMinutes(),
-            seconds: new Date().getSeconds()
-        },
-        author: "ester", nav: "../storyFamily.txt", catgory: "families from the area"
-    },
-    {
-        id: 'story2', name: "Girl1",
-        date: {
-            houers: new Date().getHours(),
-            minutes: new Date().getMinutes(),
-            seconds: new Date().getSeconds() + 2
-        },
-        author: "ester", nav: "../storyGirl.txt", category: "families from the patry"
-    },
-
-    {
-        id: 'story3', name: "Girl2",
-        date: {
-            houers: new Date().getHours(),
-            minutes: new Date().getMinutes(),
-            seconds: new Date().getSeconds() + 3
-        },
-        author: "Ester", nav: "../storyGirl2.txt", category: "families from the patry"
-    },
-    {
-        id: '11', name: "Family1",
-        date: {
-            houers: new Date().getHours(),
-            minutes: new Date().getMinutes(),
-            seconds: new Date().getSeconds()
-        },
-        author: "ester", nav: "../storyFamily.txt", catgory: "families from the area"
-    },]
-    //כל הפונקציות צריכות שינוי ועדכון מהDB
- //עובד מצוין
-exports.getAllStories = (req, res) => {
-    res.json(stories)
+const Data = require('../Models/ModelStory')
+exports.getAllStories = async (req, res) => {
+    try {
+        const stories = await Data.find()
+        res.json(stories)
+    } catch (error) {
+        console.error('Faild to get stories:', error)
+        res.status(500).json({ message: 'Faild to get stories' })
+    }
 }
-    //עובד מצוין
-exports.addStory = (req, res) => {
-    const { id, name, date, author, nav, catgory } = req.body
+exports.addStory = async (req, res) => {
+    const { id, Name, Clock, Author, Nav, Category,Like } = req.body
     //Create a new story object
-    const newStory = { id, name, date, author, nav, catgory }
+    const newStory = { id, Name, Clock, Author, Nav, Category,Like }
     //Add the new story to the array
-    stories.push(newStory)
-    res.json(stories)
-}
-    //עובד מצוין
-exports.updateStoryByID = (req, res) => {
-    //Get the id from the request
-    const { id } = req.params
-    console.log('update id',id);
-    //Get the update story
-    const updateStory = req.body
-    //Find the index of the story with the given an ID 
-    const index = stories.findIndex(str => str.id === id)
-    if (index != -1) {
-        //If the story is found , update its details in the array
-        stories[index] = updateStory
-        res.status(200).json({ message: "story details is update" })
-    }
-    else {
-        //If the story is not found ,return an error message
-        res.status(400).json({ message: 'story  not found' })
-    }
-}
-    //עובד מצוין
-exports.deleteStoryByID = (req, res) => {
-    const { id } = req.params
-    //Find the index of the story to delate
-    const index = stories.findIndex(story => story.id === id)
-    if (index != -1) {
-        //If the story is found, remove it from the array
-        stories.splice(index, 1);
-        res.status(200).json({ messge: 'story deleted successfully' })
-    }
-    else {
-        //If the story is not found, return an error message
-        res.status(404).json({ message: "story not found!" })
-    }
-}
-    //עובד מצוין
-exports.getStoryById = (req, res) => {
-    const { id } = req.params;
-    //Find the story with the matching ID
-    const story = stories.find(story =>  story.id === id )
-    //If no story found ,send an error massage
-    if (!story) {
-        res.status(404).json({ massage: 'story not found' })
-    }
+    // stories.push(newStory)
+    const story = await Data.create(newStory)
     res.json(story)
 }
-//צריך שיפור
-exports.getFreshestStory = (req, res) => {
-    const story = stories.filter((s) => {
-        s.date.seconds === new Date().getSeconds()
-    })
-    if (story)
-    //     const min=story.map((m)=>{
-    // m.date.seconds})
-        res.json(story)
+exports.updateStoryByID = async (req, res) => {
+    //Get the id from the request
+    const { id } = req.params
+    //Get the update story
+    const Story = req.body
+    try {
+        const updateStory = await Data.findOneAndUpdate(
+            { id: id },
+            { Name: Story.Name ,
+             Clock: Story.Clock ,
+            Author: Story.Author, 
+             Nav: Story.Nav ,
+            Category: Story.Category ,
+             Like: Story.Like ,
+             new: true },
+        )
+        if (!updateStory) {
+            res.status(404).json({ message: 'Story not found' })
+        }
+        res.json(updateStory)
+    } catch (error) {
+        console.error('Faild to update story:', error)
+        res.status(500).json({ message: 'Faild to update story' })
+    }
 }
+exports.deleteStoryByID = async (req, res) => {
+    const { id } = req.params
+    try {
+        const deleteStory = await Data.findOneAndDelete({ id: id })
+        if (!deleteStory) {
+            res.status(404).json({ message: "Story not found!" })
+        }
+        res.json(deleteStory)
+    } catch (error) {
+        console.error('Faild to delete story', error)
+        res.status(500).json({ massage: 'Faild to delete story' })
+    }
+}
+exports.getStoryById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const story = await Data.findOne({ id })
+        if (!story) {
+            res.status(404).json({ message: 'story not found' })
+        }
+        res.json(story)
+    } catch (error) {
+        console.error('Faild to get stroy:', error)
+        res.status(500).json({ message: 'Faild to get story' })
+    }
+}
+//צריך שיפור
+// exports.getFreshestStory = (req, res) => {
+//     const story = stories.filter((s) => {
+//         s.clock.seconds === new Date().getSeconds()
+//     })
+//     if (story)
+//         //     const min=story.map((m)=>{
+//         // m.date.seconds})
+//         res.json(story)
+// }
+
+
+
