@@ -1,13 +1,11 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config();
-// const cors=require('cors')
 const app = express()
 const storyRoter = require('./Routers/RouteStory')
 const userRoter = require('./Routers/RouteUser');
 const { Chat } = require('./Chat/Chat');
 app.use(express.json())
-// app.use(cors(configCors))
 
 app.use('/stories', storyRoter)
 app.use('/users', userRoter)

@@ -38,9 +38,11 @@ io.on('connection', (socket) => {
     io.emit('userList', users.map((user) => user.username));
   });
 });
+// PORT = process.env.PORT || 8000
 
-// server.listen(5000, () => {
-//   console.log('Server is running on port 5000');
+
+// server.listen(PORT, () => {
+//   console.log('chat server is running on port 8000 or 5000');
 // }
 // )
 ;}
