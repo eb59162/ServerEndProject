@@ -1,13 +1,20 @@
 const express = require('express')
 const mongoose = require('mongoose')
 require('dotenv').config();
-// const cors=require('cors')
+const corsOptions = require('./config/corsOptions')
+const cors=require('cors')
 const app = express()
 const storyRoter = require('./Routers/RouteStory')
 const userRoter = require('./Routers/RouteUser')
-app.use(express.json())
-// app.use(cors(configCors))
 
+const LoggerMiddleware = (req, res, next) => {
+    console.log(`${req.url} ${req.method} -- ${new Date()}`);
+    next();
+}
+
+app.use(express.json())
+app.use(cors(corsOptions))
+app.use(LoggerMiddleware)
 app.use('/stories', storyRoter)
 app.use('/users', userRoter)
 
