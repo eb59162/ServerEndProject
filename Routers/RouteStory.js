@@ -2,7 +2,7 @@ const express=require('express')
 const router=express.Router();
 
 const{getFreshestStory,addStory, getAllStories, getStoryById, 
-    updateStoryByID, deleteStoryByID}=require('../Controlers/ControllerStory')
+    updateStoryByID, deleteStoryByID}=require('../DataBase/Controlers/ControllerStory')
 router.get('/',getAllStories)
 router.get('/:id', getStoryById)
 router.post('/', addStory)

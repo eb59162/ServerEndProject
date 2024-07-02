@@ -25,8 +25,8 @@ exports.updateUserByID = async (req, res) => {
             { id: id }, 
             { name: User.name, 
              email: User.email,
-              phone: User.phone,
-             new: true })
+              phone: User.phone},
+            { new: true })
         if (!updateUser) {
             res.status(404).json({ message: 'User not found' })
         }
@@ -41,7 +41,7 @@ exports.updateUserByID = async (req, res) => {
 exports.deleteUserByID = async (req, res) => {
     const { id } = req.params
     try {
-        const deleteUser = await Data.findOneAndDelete({ id: id })
+        const deleteUser = await Data.findOneAndDelete({ id })
         if (!deleteUser) {
             res.status(404).json({ message: "User not found" })
         }

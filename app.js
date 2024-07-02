@@ -5,14 +5,12 @@ require('dotenv').config();
 const app = express()
 const storyRoter = require('./Routers/RouteStory')
 const userRoter = require('./Routers/RouteUser');
-const { Chat } = require('./Chat/Chat');
 app.use(express.json())
 // app.use(cors(configCors))
 
 app.use('/stories', storyRoter)
 app.use('/users', userRoter)
 
-Chat()
 app.get('/', function (req, res) {
     res.send('Hello World!')
 })

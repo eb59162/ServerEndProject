@@ -9,13 +9,16 @@ exports.getAllStories = async (req, res) => {
     }
 }
 exports.addStory = async (req, res) => {
+    try{
     const { id, Name, Clock, Author, Nav, Category,Like } = req.body
     //Create a new story object
     const newStory = { id, Name, Clock, Author, Nav, Category,Like }
-    //Add the new story to the array
-    // stories.push(newStory)
     const story = await Data.create(newStory)
     res.json(story)
+}catch(error){
+res.status(422).json({message:"category have to be from this enum:[ from party"+
+       ", from the worst area]"})
+    }
 }
 exports.updateStoryByID = async (req, res) => {
     //Get the id from the request
@@ -29,13 +32,16 @@ exports.updateStoryByID = async (req, res) => {
              Clock: Story.Clock ,
             Author: Story.Author, 
              Nav: Story.Nav ,
-            Category: Story.Category ,
-             Like: Story.Like ,
-             new: true },
-        )
+            Category: Story.Category,
+             Like: Story.Like },
+            { new: true },
+      )
         if (!updateStory) {
             res.status(404).json({ message: 'Story not found' })
         }
+        console.log("update",updateStory.Category);
+           // {res.status(422).json({message:"category have to be from the enum"})}
+        
         res.json(updateStory)
     } catch (error) {
         console.error('Faild to update story:', error)
@@ -45,7 +51,7 @@ exports.updateStoryByID = async (req, res) => {
 exports.deleteStoryByID = async (req, res) => {
     const { id } = req.params
     try {
-        const deleteStory = await Data.findOneAndDelete({ id: id })
+        const deleteStory = await Data.findOneAndDelete({ id })
         if (!deleteStory) {
             res.status(404).json({ message: "Story not found!" })
         }
