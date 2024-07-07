@@ -30,6 +30,9 @@ exports.addUser = (req, res) => {
     const { id, name, email } = req.body
     //Create a new user object
     const newUser = { id, name, email }
+    if(email === process.env.ADMINEMAIL && name === process.env.ADMINNAME){
+        newUser.role = "admin"
+    }
     //Add the new user to the array
     users.push(newUser)
     res.json(users)
