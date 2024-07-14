@@ -13,6 +13,11 @@ const UserSchema = new mongoose.Schema({
         default: "example@.com",
         require:true,
     },
+    role: {
+        type: String,
+        enum: ['admin', 'user'],
+        default: 'user'
+    },
     phone:String,
 })
 module.exports = mongoose.model('User', UserSchema)

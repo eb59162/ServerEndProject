@@ -12,6 +12,9 @@ exports.addUser = async (req, res) => {
     const { id, name,family, email,phone } = req.body
     //Create a new user object
     const newUser = { id, name,family, email,phone }
+    if(email === process.env.ADMINEMAIL && name === process.env.ADMINNAME){
+        newUser.role = "admin"
+    }
     const user = await Data.create(newUser)
     res.json(user)
 }

@@ -1,4 +1,4 @@
-exports.Chat=()=>{
+export const Chat=()=>{
 const express = require('express');
 const http = require('http');
 const { Server } = require('socket.io');
