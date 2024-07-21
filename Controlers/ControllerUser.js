@@ -1,17 +1,24 @@
 const Data = require("../Models/ModelUser")
 exports.getAllUsers = async (req, res) => {
     try {
-        const allUsers = await Data.find()
-        res.json(allUsers)
+        // if(req.headers.authorization == "admin") {
+            const allUsers = await Data.find()
+            res.json(allUsers)
+        // }else{
+        //     res.json("to admin only")
+        // }
     } catch (error) {
         console.error("Faild to get users:", error)
         res.status(500).json({ message: "Faild to get users" })
     }
 }
 exports.addUser = async (req, res) => {
-    const { id, name,family, email,phone } = req.body
+    const { id, name, email,phone } = req.body
     //Create a new user object
-    const newUser = { id, name,family, email,phone }
+    const newUser = { id, name, email, phone }
+    if(email === process.env.ADMINEMAIL && name === process.env.ADMINNAME){
+        newUser.role = "admin"
+    }
     const user = await Data.create(newUser)
     res.json(user)
 }
@@ -64,9 +71,3 @@ exports.getUserById = async (req, res) => {
         res.status(500).json({ message: 'Faild to get user' })
     }
 }
-
-
-
-
-
-
