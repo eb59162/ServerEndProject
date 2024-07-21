@@ -3,7 +3,7 @@ const router=express.Router();
 const auth = require('../config/authenticate');
 const{addUser, getAllUsers, getUserById,
 updateUserByID, deleteUserByID}=require('../Controlers/ControllerUser')
-router.get('/',getAllUsers)
+router.get('/',auth, getAllUsers)
 router.get('/:id', getUserById)
 router.post('/', addUser)
 router.put('/:id', auth, updateUserByID)

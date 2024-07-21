@@ -26,17 +26,25 @@ app.use(LoggerMiddleware)
 app.use('/stories', storyRoter)
 app.use('/users', userRoter)
 
-app.post('/login', (req, res) => {
-    if(req.body.email === process.env.ADMINEMAIL && req.body.name === process.env.ADMINNAME){
-        const token = jwt.sign({id: req.id, name: req.name, email: req.email, role: "admin"}, SECRET)
-        res.send({ accessToken: token })
-    }
-    const user = User.findOne(user => user.email === req.body.email && user.name === req.body.name)
-    if(user){
-        const token = jwt.sign({id: req.id, name: req.name, email: req.email}, SECRET)
-        res.send({ accessToken: token })
-    } else {
-        res.status(401).send({ message: "unauthorized" }) 
+app.post('/login', async (req, res) => {
+    try {
+        const {name, email} = req.body
+        const user = await User.findOne({email})
+        if(user){
+            if(email === process.env.ADMINEMAIL && name === process.env.ADMINNAME){
+                const token = jwt.sign({name, email, role: "admin"}, SECRET)
+                res.send({ accessToken: token })
+            }
+            else{
+                const token = jwt.sign({name, email}, SECRET)
+                res.send({ accessToken: token })
+            }
+        } else {
+            res.status(401).send({ message: "unauthorized" }) 
+        }
+    } catch (error) {
+        console.error('Faild log in user:', error)
+        res.status(500).json({ message: 'Faild to log in' })
     }
 })
 
