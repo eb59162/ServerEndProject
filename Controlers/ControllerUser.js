@@ -1,12 +1,12 @@
 const Data = require("../Models/ModelUser")
 exports.getAllUsers = async (req, res) => {
     try {
-        if(req.headers.authorization.role == "admin") {
+        // if(req.headers.authorization == "admin") {
             const allUsers = await Data.find()
             res.json(allUsers)
-        }else{
-            res.json("to admin only")
-        }
+        // }else{
+        //     res.json("to admin only")
+        // }
     } catch (error) {
         console.error("Faild to get users:", error)
         res.status(500).json({ message: "Faild to get users" })
