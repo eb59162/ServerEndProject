@@ -24,6 +24,6 @@ const users = [
 describe('Controller user', () => {
     test('add user successful', () => {
         
-          expect(ctgr.length).not.to.equal(0);
+          expect(users.length).not.to.equal(0);
     });
   });

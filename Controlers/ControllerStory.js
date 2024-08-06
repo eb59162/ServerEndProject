@@ -9,29 +9,34 @@ exports.getAllStories = async (req, res) => {
     }
 }
 exports.addStory = async (req, res) => {
-    const { id, Name, Clock, Author, Nav, Category,Like } = req.body
+    const { name, clock, author,email, nav, category, like } = req.body
     //Create a new story object
-    const newStory = { id, Name, Clock, Author, Nav, Category,Like }
-    //Add the new story to the array
-    // stories.push(newStory)
+    const newStory = { name, clock, author,email, nav, category, like }
+    newStory.status = "on"
+    console.log("Name, Clock, Author,Email, Nav, Category,Like");
+    console.log(name, clock, author,email, nav, category, like)
+
     const story = await Data.create(newStory)
     res.json(story)
 }
-exports.updateStoryByID = async (req, res) => {
+exports.updateStoryByEmail = async (req, res) => {
     //Get the id from the request
-    const { id } = req.params
+    const { email } = req.params
     //Get the update story
     const Story = req.body
     try {
         const updateStory = await Data.findOneAndUpdate(
-            { id: id },
-            { Name: Story.Name ,
-             Clock: Story.Clock ,
-            Author: Story.Author, 
-             Nav: Story.Nav ,
-            Category: Story.Category ,
-             Like: Story.Like ,
-             new: true },
+            { email: email },
+            {
+                Name: Story.Name,
+                Clock: Story.Clock,
+                Author: Story.Author,
+                Nav: Story.Nav,
+                Category: Story.Category,
+                Like: Story.Like,
+                status: Story.status,
+                new: true
+            },
         )
         if (!updateStory) {
             res.status(404).json({ message: 'Story not found' })
@@ -42,17 +47,20 @@ exports.updateStoryByID = async (req, res) => {
         res.status(500).json({ message: 'Faild to update story' })
     }
 }
-exports.deleteStoryByID = async (req, res) => {
-    const { id } = req.params
+exports.deleteStoryByEmail = async (req, res) => {
+    const { email } = req.params
     try {
-        const deleteStory = await Data.findOneAndDelete({ id: id })
+        const deleteStory = await Data.findOneAndUpdate(
+            { email: email },
+            {   status: "off",
+                new: true
+            })
         if (!deleteStory) {
             res.status(404).json({ message: "Story not found!" })
         }
         res.json(deleteStory)
     } catch (error) {
-        console.error('Faild to delete story', error)
-        res.status(500).json({ massage: 'Faild to delete story' })
+    
     }
 }
 exports.getStoryById = async (req, res) => {
